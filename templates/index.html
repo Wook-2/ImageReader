@@ -1,0 +1,197 @@
+<!doctype html>
+    <head>
+    </head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <!-- Project Title! -->
+        <title>EasyOCR</title>    
+        <style>
+            #loader {
+                z-index: 1;
+                width: 40px;
+                height: 40px;
+                /* margin: 30px 0px 0px 50px; */
+                border-top:20px;
+                border: 6px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 6px solid #3498db;
+                vertical-align:middle;
+                -webkit-animation: spin 3s linear infinite;
+                animation: spin 2s linear infinite;
+                }
+
+            @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+            }
+
+            @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+            }
+
+            #statusWraaper {
+                margin-left:10px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                vertical-align:baseline;
+                height: 40px;
+                display: inline-block;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <script>
+        function click_submit(){
+            document.getElementById("submit_btn").disabled = true;
+        }
+        function onFileSelected(event){
+            var selectedFile = event.target.files[0];
+            var reader = new FileReader();
+            
+            var imgtag = document.getElementById("myimage");
+            imgtag.title = selectedFile.name;
+
+            reader.onload = function(event) {
+                imgtag.src = event.target.result;
+            };
+            reader.readAsDataURL(selectedFile);
+            document.getElementById("submit_btn").disabled = false;
+        }
+    </script>
+    <body>
+        <div class = "container">
+            <div class="jumbotron mt-3">
+                 <!-- Proejct Title -->
+                 
+                <h1>Image Reader<p style="font-size:medium;">(ver 1.0.0)</p></h1>
+                <!-- Github link and Ainize link -->
+                <A>EasyOCR : </A> <A href="https://github.com/Wook-2/EasyOCR">https://github.com/Wook-2/EasyOCR</A>
+                <A>TTS : </A> <A href="https://github.com/woomurf/WaveRNN">https://github.com/woomurf/WaveRNN</A>
+                <br>
+                <A>Testing API : </A> <A href="https://ainize.ai/wook-2/easyocrgpu"> on Ainize </A>
+                <hr class="solid">
+                    <div id = 'inputImage' style="float:left;width: 50%;">
+                        <h2>Upload </h2>
+                        <form action="" method="post" enctype="multipart/form-data" onsubmit="click_submit()">
+                            <p>Import Image:<br><input type=file onchange="onFileSelected(event)" name=file </p>
+                               <input id="submit_btn"class="btn btn-primary btn-lg" style="margin-left: auto;" type=submit value=Upload>
+                          </form>
+                    </div>
+
+                <div style="float:left;width: 50%;">
+                <h2>Download sample image</h2>
+
+                </div>
+                <br><br><br><br><br><br><br>
+                
+
+
+
+                <!-- Result Box -->
+                <div id ='resultBox' style="margin-left: auto; margin-right: auto;">
+                    <div id ="loadingWraaper">
+                        <div id = "statusWraaper"><p id='statusBox'></p></div>
+                        <div id = "loader" style="display: none;"></div><br>
+                    </div>
+                    <audio id = "audioBox" controls="controls">
+                        <source id = "result" src=""></source>
+                    </audio>
+                </div>
+
+                <!-- onclick function, you can delete this if you want  -->
+                <script>
+                    window.location.origin = "localhost"
+                    document.getElementById("submit_btn").onclick = () => {
+
+                        var loading = document.getElementById("statusBox");
+                        loading.innerHTML = "Loading..."
+                        waiting();
+                        
+                        var audioSource = document.getElementById("result")
+                        audioSource.src = "";
+                        
+                        var formData = new FormData();
+                        var base_image = document.getElementById("inputImage").files[0]
+                        
+                        var batched = true
+
+                        if (radios[1].checked){
+                            batched = false
+                        }
+                        
+                        formData.append("file", base_image)
+                        var status; 
+
+                        fetch(
+                            '/upload',
+                            {
+                                method: 'POST',
+                                body: formData,
+                            }
+                        )
+                        .then(response => {
+                            if (response.status == 200){
+                                return response
+                            }
+                            else if(response.status==400){
+                                throw Error("Input Text Error");
+                            }
+                            else if(response.status==429){
+                                throw Error("Too Many Request");
+                            }
+                            else if(response.status==500){
+                                throw Error("Generate TTS Error");
+                            }
+                        })
+                        .then(response => response.blob())
+                        .then(blob => URL.createObjectURL(blob))
+                        .then(audioURL => {
+                            audioSource.src = audioURL;
+                            
+                            loading.innerHTML = "Done!"
+                            stopWaiting();
+
+                            var audio = document.getElementById("audioBox")
+                            audio.load()
+                            audio.play()
+                        })
+                        .catch(error => {
+                            loading.innerHTML = error;
+                            stopWaiting();
+                        })
+                    }
+
+                    function waiting(){
+                        var spining = document.getElementById("loader");
+                        spining.style.display = 'inline-block';
+
+                    }
+
+                    function stopWaiting(){
+                        var spining = document.getElementById("loader");
+                        spining.style.display = "none";
+                    }
+
+                </script>
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </body>
+
+
