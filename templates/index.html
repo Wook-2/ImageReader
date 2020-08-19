@@ -11,7 +11,7 @@
             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
         <!-- Project Title! -->
-        <title>EasyOCR</title>    
+        <title>Image Reader</title>    
         <style>
             #loader {
                 z-index: 1;
@@ -73,30 +73,33 @@
                  
                 <h1>Image Reader<p style="font-size:medium;">(ver 1.0.0)</p></h1>
                 <!-- Github link and Ainize link -->
-                <A>EasyOCR : </A> <A href="https://github.com/Wook-2/EasyOCR">https://github.com/Wook-2/EasyOCR</A>
+                <A>EasyOCR : </A> <A href="https://github.com/Wook-2/EasyOCR">https://github.com/Wook-2/EasyOCR</A><br>
                 <A>TTS : </A> <A href="https://github.com/woomurf/WaveRNN">https://github.com/woomurf/WaveRNN</A>
                 <br>
                 <A>Testing API : </A> <A href="https://ainize.ai/wook-2/easyocrgpu"> on Ainize </A>
                 <hr class="solid">
                     <div id = 'inputImage' style="float:left;width: 50%;">
                         <h2>Upload </h2>
-                        <form action="" method="post" enctype="multipart/form-data" onsubmit="click_submit()">
-                            <p>Import Image:<br><input type=file onchange="onFileSelected(event)" name=file </p>
-                               <input id="submit_btn"class="btn btn-primary btn-lg" style="margin-left: auto;" type=submit value=Upload>
-                          </form>
+                            <label for="input">Import Image: </label>
+                            <input id="input" type=file onchange="onFileSelected(event)" name=file><br>
+                            <img src="" alt="" id="myimage" style="height: 200px;"><br>
+                            <button id = "submit_btn" type='submit' class="btn btn-primary btn-lg" style="margin-left: auto;"> Run </button>
+                            <!-- <input id="submit_btn"class="btn btn-primary btn-lg" style="margin-left: auto;" type=submit value=Upload> -->
+                            
                     </div>
-
-                <div style="float:left;width: 50%;">
-                <h2>Download sample image</h2>
-
-                </div>
-                <br><br><br><br><br><br><br>
                 
-
-
-
-                <!-- Result Box -->
-                <div id ='resultBox' style="margin-left: auto; margin-right: auto;">
+                <div style="float:left;width: 50%;">
+                <h2>Download sample image</h2><br>
+                [Short Poem] : <a href="/static/short_poem.jpg" target='blank'><button class='btn btn-primary' style="border-radius: 3px; margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
+                [Warning Post] : <a href="/static/post.jpeg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
+                [Message Alert] : <a href="/static/alert.png" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
+                </div>
+                <!-- <br><br><br><br><br><br><br><br><br> -->
+                            <!-- Result Box -->
+                {% if error %}
+                    <p>{{ error }}</p>
+                {% endif %}
+                <div id ='resultBox' style="width: 30%;">
                     <div id ="loadingWraaper">
                         <div id = "statusWraaper"><p id='statusBox'></p></div>
                         <div id = "loader" style="display: none;"></div><br>
@@ -119,13 +122,8 @@
                         audioSource.src = "";
                         
                         var formData = new FormData();
-                        var base_image = document.getElementById("inputImage").files[0]
+                        var base_image = document.getElementById("input").files[0]
                         
-                        var batched = true
-
-                        if (radios[1].checked){
-                            batched = false
-                        }
                         
                         formData.append("file", base_image)
                         var status; 
@@ -170,6 +168,8 @@
                     }
 
                     function waiting(){
+                        var button = document.getElementById("submit_btn");
+                        button.disabled = "disabled";
                         var spining = document.getElementById("loader");
                         spining.style.display = 'inline-block';
 
@@ -178,6 +178,8 @@
                     function stopWaiting(){
                         var spining = document.getElementById("loader");
                         spining.style.display = "none";
+                        var button = document.getElementById("submit_btn");
+                        button.disabled = false;
                     }
 
                 </script>
