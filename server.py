@@ -79,7 +79,7 @@ def run(input_image):
         print("type is int!")
     if response.status_code == 429:
         return 429 
-        
+
     return response.content
 
 
@@ -122,6 +122,8 @@ def upload_file():
         while 'output' not in req:
             time.sleep(CHECK_INTERVAL)
 
+        if req['output'] == 429:
+            return render_template('index.html', error = 'Toomany requests, please try again.')
         byte_io = io.BytesIO(req['output'])
         byte_io.seek(0)
         return send_file(byte_io, mimetype="audio/wav")
