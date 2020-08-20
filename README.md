@@ -6,12 +6,12 @@
 
 <br>
 <h3 align ='center'>Input</h3>
-<hr style='margin:auto;width:80px'><br>
+
 <p align='center'>
 <img src ='https://raw.githubusercontent.com/Wook-2/ImageReader/master/static/post.jpeg'>
 </p>
 <h3 align ='center'>Output</h3>
-<hr style='margin:auto;width:80px'><br>
+
 
 <p align='center'>
 <img src='https://github.com/Wook-2/ImageReader/blob/master/static/audiosample.png?raw=true' style='width:400px'>
