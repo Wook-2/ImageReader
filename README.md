@@ -14,7 +14,7 @@
 
 
 <p align='center'>
-<img src='https://github.com/Wook-2/ImageReader/blob/master/static/audiosample.png?raw=true' style='width:400px'>
+<img src='https://github.com/Wook-2/ImageReader/blob/master/static/audiosample.png?raw=true' style='width:200px'>
 </p>
 <br><br>
 
