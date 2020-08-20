@@ -28,6 +28,7 @@ class UserBehavior(TaskSet):
     @task
     def ITS(self):
         global responsetime, response200
+        response_aver = 0
 
         req_id = str(uuid.uuid4())
         image = random.choice(IMAGES)
@@ -48,8 +49,8 @@ class UserBehavior(TaskSet):
         if response.status_code == 200:
             response200 += 1
             responsetime += duration
-
-        response_aver = responsetime/response200
+        if response200 > 0:
+            response_aver = responsetime/response200
         print(('out', req_id, duration, index, response.status_code, response_aver))
 
 TARGET_RPS = 1
