@@ -123,7 +123,7 @@ def upload_file():
             time.sleep(CHECK_INTERVAL)
 
         if req['output'] == 429:
-            return render_template('index.html', error = 'Toomany requests, please try again.')
+            return render_template('index.html', error = 'Toomany requests, please try again.'), 429
         byte_io = io.BytesIO(req['output'])
         byte_io.seek(0)
         return send_file(byte_io, mimetype="audio/wav")
