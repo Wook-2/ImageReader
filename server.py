@@ -95,24 +95,24 @@ def upload_file():
         print("start")
         if 'file' not in request.files:
             print('no file')
-            return redirect(request.url)
+            return jsonify({'msg':'Please input image'}),400
         input_image = request.files['file']
         
         try:
             PIL.Image.open(input_image).convert("RGB")
         except Exception: 
-            return render_template('index.html', result = 'Import image please'), 400
+            return jsonify({'msg':'Please input image'}), 400
 
         if input_image.filename == '':
             print('no filename')
-            return redirect(request.url)
+            return jsonify({'msg':'No filename'}), 400
         input_image = PIL.Image.open(input_image)
         buf = io.BytesIO()
         input_image.save(buf, format='PNG')
         byte_file = buf.getvalue()
         
         if requests_queue.qsize() >= BATCH_SIZE:
-            return render_template('index.html', result = 'TooMany requests try again'), 429
+            return jsonify({'msg':'Too Many Requests. Please try again'}), 429
 
         req = {
             'input': [byte_file]
@@ -123,7 +123,7 @@ def upload_file():
             time.sleep(CHECK_INTERVAL)
 
         if req['output'] == 429:
-            return render_template('index.html', error = 'Toomany requests, please try again.'), 429
+            return jsonify({'msg':'Too Many Requests. Please try again'}), 429
         byte_io = io.BytesIO(req['output'])
         byte_io.seek(0)
         return send_file(byte_io, mimetype="audio/wav")
@@ -138,7 +138,8 @@ def checkHealth():
 @app.errorhandler(413)
 def request_entity_too_large(error):
     # return {'error': 'File Too Large'}, 413
-    return render_template('index.html', result = 'The image size is too large'), 413
+    # return render_template('index.html', result = 'The image size is too large'), 413
+    return jsonify({'msg':'The image size is too large'}),413
 
 
 if __name__ == '__main__':
