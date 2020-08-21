@@ -62,6 +62,8 @@ def run(input_image):
     print(ocr_response.status_code)
     if ocr_response.status_code == 429:
         return 429
+    elif ocr_response.status_code == 500:
+        return 'OCR Server Error'
 
     extracted_text = str(ocr_response.text)
     print("ocr done")
@@ -71,23 +73,23 @@ def run(input_image):
     'batched': 'True'}
     headers= {}
     for _ in range(5):
-        response = requests.request("POST", tts_addr, headers=headers, data = tts_data)
-        if response.status_code == 200:
+        tts_response = requests.request("POST", tts_addr, headers=headers, data = tts_data)
+        if tts_response.status_code == 200:
             break
-        elif response.status_code == 429:
+        elif tts_response.status_code == 429:
             time.sleep(1)
         else:
             break
     
     print("tts done")
-    print(response.status_code)
-    print(type(response.status_code))
-    if type(response.status_code) is int :
-        print("type is int!")
-    if response.status_code == 429:
+    print(tts_response.status_code)
+    
+    if tts_response.status_code == 429:
         return 429 
+    elif tts_response.status_code == 500:
+        return 'TTS Server Error'
 
-    return response.content
+    return tts_response.content
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -131,6 +133,9 @@ def upload_file():
 
         if req['output'] == 429:
             return jsonify({'msg':'Too Many Requests. Please try again'}), 429
+        elif 'error' in req['output'] : 
+            return jsonify({'msg':req['output']}), 500
+            
         byte_io = io.BytesIO(req['output'])
         byte_io.seek(0)
         return send_file(byte_io, mimetype="audio/wav")
