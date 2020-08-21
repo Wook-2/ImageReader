@@ -76,7 +76,6 @@
                  <!-- Proejct Title -->
                  
                 <h1>Image Reader<br><h3>[EasyOCR X WaveRNN]</h3><p style="font-size:medium;">(ver 1.0.0)</p></h1>
-                <p style="font-weight: bold;">Read English in image what you upload and Make voice file using EasyOCR and WaveRNN</p>
                 <!-- Github link and Ainize link -->
                 <A href="https://github.com/Wook-2/EasyOCR">EasyOCR</A> : EasyOCR is a project which recognizes text inside images, such as scanned documents and photos.
                 <br>
@@ -97,29 +96,30 @@
                     <hr class='solid'>
                     <h2>How to use</h2>
                     <ol>
-                        <li>Upload image</li>
-                        <li>Click [RUN] button</li>
+                        <li>Choose an image file you want to read</li>
+                        <li>Click the [RUN] button</li>
                     </ol>
                     <h3>Note</h3>
                     <ul>
-                        <li>If the text to be read is too long or difficult to recognize letters, the voice file may break.</li>
-                        <li>It can only read English.</li>
+                        <li>The voice file may break if the text is too long or difficult to recognize letters.</li>
+                        <li>It only works in English.</li>
                     </ul>
                 </div>
                 <div style="width:100%;">
                     <hr class="solid">
-                    <h2>Download sample image</h2><br>
-                    [Short Poem] : <a href="/static/short_poem.jpg" target='blank'><button class='btn btn-primary' style="border-radius: 3px; margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
-                    [Warning Post] : <a href="/static/post.jpeg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
-                    [Message Alert] : <a href="/static/alert.png" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
-                    [Road Sign] : <a href="/static/roadsign2.jpeg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
-                    [Sign Board] : <a href="/static/signboard.jpg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
+                    <h2>Sample images</h2>
+                    Click the blue button to download an image<br>
+                    <a href="/static/short_poem.jpg" target='blank'><button class='btn btn-primary' style="border-radius: 3px; margin-top: 5px; margin-bottom: 5px;">[Short Poem]</button></a>
+                    <a href="/static/post.jpeg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">[Warning Post]</button></a>
+                    <a href="/static/alert.png" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">[Message Alert]</button></a>
+                    <a href="/static/roadsign2.jpeg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">[Road Sign]</button></a>
+                    <a href="/static/signboard.jpg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">[Sign Board]</button></a><br>
                 </div>
                 <hr class="solid">
             <div>
-                <div id = 'inputImage' style="display:inline-block; width: 49%;">
+                <div id = 'inputImage' style=" width: 49%;">
 
-                    <h2>Upload </h2>
+                    <h2>Let's try! </h2>
                         <label for="input">Import Image: </label>
                         <input id="input" type=file onchange="onFileSelected(event)" name=file><br>
                         <div style="overflow: auto;margin-right: 10%;"><img src="" alt="" id="myimage" style="height: 200px;overflow: scroll"><br></div>
@@ -129,7 +129,7 @@
                         
                 </div>
                 
-                <div id = 'resultBox' style="display:inline-block;width: 49%;">
+                <div id = 'resultBox' style=" width: 49%;">
                     
                     <h2>Result</h2>
                     <div id ="loadingWraaper">
