@@ -133,7 +133,7 @@ def upload_file():
 
         if req['output'] == 429:
             return jsonify({'msg':'Too Many Requests. Please try again'}), 429
-        elif 'error' in req['output'] : 
+        elif type(req['output']) == type(str()) : 
             return jsonify({'msg':req['output']}), 500
             
         byte_io = io.BytesIO(req['output'])
