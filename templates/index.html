@@ -154,14 +154,11 @@
                             if (response.status == 200){
                                 return response
                             }
-                            else if(response.status==400){
-                                throw Error("Input Text Error");
-                            }
-                            else if(response.status==429){
-                                throw Error("Too Many Request");
-                            }
-                            else if(response.status==500){
-                                throw Error("Generate TTS Error");
+                            else{
+                                response.json().then(response =>{
+                                    loading.innerHTML = response['msg']
+                                })
+                                throw Error("")
                             }
                         })
                         .then(response => response.blob())
@@ -177,7 +174,6 @@
                             audio.play()
                         })
                         .catch(error => {
-                            loading.innerHTML = error;
                             stopWaiting();
                         })
                     }
