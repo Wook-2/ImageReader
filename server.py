@@ -12,6 +12,7 @@ import io
 from queue import Queue, Empty
 import time
 import threading
+import constant
 
 
 
@@ -25,8 +26,8 @@ requests_queue = Queue()
 BATCH_SIZE = 1
 CHECK_INTERVAL = 0.1
 
-easy_ocr_addr = 'https://easyocrgpu-wook-2.endpoint.ainize.ai/word_extraction'
-tts_addr = "https://master-wave-rnn-woomurf.endpoint.ainize.ai/tts"
+easy_ocr_addr = constant.ocr_url
+tts_addr = constant.tts_url
 
 
 def handle_requests_by_batch():
@@ -69,8 +70,14 @@ def run(input_image):
     tts_data = {'input_text': extracted_text,
     'batched': 'True'}
     headers= {}
-
-    response = requests.request("POST", tts_addr, headers=headers, data = tts_data)
+    for _ in range(5):
+        response = requests.request("POST", tts_addr, headers=headers, data = tts_data)
+        if response.status_code == 200:
+            break
+        elif response.status_code == 429:
+            time.sleep(1)
+        else:
+            break
     
     print("tts done")
     print(response.status_code)
