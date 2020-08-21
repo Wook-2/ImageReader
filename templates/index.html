@@ -75,16 +75,26 @@
             <div class="jumbotron mt-3">
                  <!-- Proejct Title -->
                  
-                <h1>Image Reader<p style="font-size:medium;">(ver 1.0.0)</p></h1>
+                <h1>Image Reader<br><h3>[EasyOCR X WaveRNN]</h3><p style="font-size:medium;">(ver 1.0.0)</p></h1>
                 <p style="font-weight: bold;">Read English in image what you upload and Make voice file using EasyOCR and WaveRNN</p>
                 <!-- Github link and Ainize link -->
-                <A>GitHub Repo : </A> <A href="https://github.com/Wook-2/callapi">https://github.com/Wook-2/callapi</A><br>
-                <A>EasyOCR : </A> <A href="https://github.com/Wook-2/EasyOCR">https://github.com/Wook-2/EasyOCR</A><br>
-                <A>WaveRNN : </A> <A href="https://github.com/woomurf/WaveRNN">https://github.com/woomurf/WaveRNN</A>
+                <A href="https://github.com/Wook-2/EasyOCR">EasyOCR</A> : EasyOCR is a project which recognizes text inside images, such as scanned documents and photos.
                 <br>
-                <A>Ainize : </A> <A href="https://ainize.ai/Wook-2/callapi?branch=master"> on Ainize </A>
+                <A href="https://github.com/woomurf/WaveRNN">WaveRNN</A> : WaveRNN is a project that converts text to speech. <br>
+                <A>GitHub Repo : </A> <A href="https://github.com/Wook-2/callapi">https://github.com/Wook-2/callapi</A>
+                <br>
+                <A>Ainize : </A> <A href="https://ainize.ai/Wook-2/callapi?branch=master"> on Ainize </A><br>
+                
                 <hr class="solid">
                 <div style="float:left;width:100%;">
+                    <h2>Example</h2>
+                    <h4>Input</h4>
+                    <img src="../static/post.jpeg" alt="">
+                    <h4>Output</h4>
+                    <audio controls="controls">
+                        <source src="../static/ImageReaderSample.wav"></source>
+                    </audio>
+                    <hr class='solid'>
                     <h2>How to use</h2>
                     <ol>
                         <li>Upload image</li>
@@ -96,6 +106,15 @@
                         <li>It can only read English.</li>
                     </ul>
                 </div>
+                <div style="float: left;width:100%;">
+                <hr class="solid">
+                <h2>Download sample image</h2><br>
+                [Short Poem] : <a href="/static/short_poem.jpg" target='blank'><button class='btn btn-primary' style="border-radius: 3px; margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
+                [Warning Post] : <a href="/static/post.jpeg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
+                [Message Alert] : <a href="/static/alert.png" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
+                [Road Sign] : <a href="/static/roadsign2.jpeg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
+                [Sign Board] : <a href="/static/signboard.jpg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
+            </div>
                 
 
                     <div id = 'inputImage' style="float:left;width: 50%;">
@@ -110,22 +129,8 @@
                             
                     </div>
                 
-                <div style="float:left;width: 50%;">
+                <div id = 'resultBox' style="float:left;width: 50%;">
                     <hr class="solid">
-                <h2>Download sample image</h2><br>
-                [Short Poem] : <a href="/static/short_poem.jpg" target='blank'><button class='btn btn-primary' style="border-radius: 3px; margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
-                [Warning Post] : <a href="/static/post.jpeg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
-                [Message Alert] : <a href="/static/alert.png" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
-                [Road Sign] : <a href="/static/roadsign2.jpeg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
-                [Sign Board] : <a href="/static/signboard.jpg" target='blank'><button class='btn btn-primary' style="border-radius: 3px;margin-top: 5px; margin-bottom: 5px;">Download</button></a><br>
-                </div>
-                <!-- <br><br><br><br><br><br><br><br><br> -->
-                            <!-- Result Box -->
-                {% if error %}
-                    <p>{{ error }}</p>
-                {% endif %}
-                <div id ='resultBox' style="width: 30%;">
-                    <br>
                     <h2>Result</h2>
                     <div id ="loadingWraaper">
                         <div id = "statusWraaper"><p id='statusBox'></p></div>
@@ -135,6 +140,11 @@
                         <source id = "result" src=""></source>
                     </audio>
                 </div>
+                <!-- <br><br><br><br><br><br><br><br><br> -->
+                            <!-- Result Box -->
+                {% if error %}
+                    <p>{{ error }}</p>
+                {% endif %}
 
                 <!-- onclick function, you can delete this if you want  -->
                 <script>
