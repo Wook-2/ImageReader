@@ -1,13 +1,7 @@
 import requests
-import os
-from flask import Flask, request, send_file, flash, redirect, render_template, url_for, jsonify
-from werkzeug.utils import secure_filename
+from flask import Flask, request, send_file, render_template, jsonify
 import PIL
 from PIL import Image, ImageOps
-import base64
-import cv2
-import numpy as np
-import tempfile
 import io
 from queue import Queue, Empty
 import time
@@ -15,9 +9,7 @@ import threading
 import constant
 
 
-
 UPLOAD_FOLDER = '/static'
-
 app = Flask(__name__, template_folder='templates')
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024*5
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -149,8 +141,6 @@ def checkHealth():
 
 @app.errorhandler(413)
 def request_entity_too_large(error):
-    # return {'error': 'File Too Large'}, 413
-    # return render_template('index.html', result = 'The image size is too large'), 413
     return jsonify({'msg':'The image size is too large'}),413
 
 
